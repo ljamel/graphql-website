@@ -7,7 +7,7 @@ CREATE TABLE posts (
     content TEXT NOT NULL
 );
 
-CREATE TABLE posts (
+CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL,
     post TEXT NOT NULL
