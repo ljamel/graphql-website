@@ -29,6 +29,18 @@ Now we can install our dependencies:
 pip install -r requirements.txt
 ```
 
+Add text in database
+
+```bash
+python init_db.py
+```
+
+Now specifi path for execute application
+
+```bash
+export FLASK_APP=app
+```
+
 Now the following command will setup the database, and start the server:
 
 ```bash
@@ -37,6 +49,10 @@ Now the following command will setup the database, and start the server:
 or
 
 flask run
+
+or
+
+flask run -p 5001
 ```
 
 
