@@ -26,7 +26,7 @@ source env/bin/activate
 Now we can install our dependencies:
 
 ```bash
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 Add text in database
