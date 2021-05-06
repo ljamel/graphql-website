@@ -12,7 +12,6 @@ Jinja2==2.10.1
 jsonpatch==1.22
 jsonpointer==2.0
 jsonschema==3.2.0
-language-selector==0.1
 requests==2.22.0
 requests-unixsocket==0.2.0
 SQLAlchemy==1.4.12
