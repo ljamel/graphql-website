@@ -6,8 +6,6 @@ from flask_graphql import GraphQLView
 import graphene
 from graphene_sqlalchemy import SQLAlchemyObjectType, SQLAlchemyConnectionField
 from flask_sqlalchemy import SQLAlchemy
-import time
-import calendar
 import os
 # app initialization
 app = Flask(__name__)
@@ -15,9 +13,9 @@ app.debug = True
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 # Configs
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' +    os.path.join(basedir, 'database.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' +    os.path.join(basedir, 'data.sqlite')
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Modules
 db = SQLAlchemy(app)
 
@@ -40,15 +38,16 @@ class User(db.Model):
     __tablename__ = 'users'
     uuid = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(256), index=True, unique=True)
-
+    posts = db.relationship('Post', backref='author')
+    
     def __repr__(self):
         return '<User %r>' % self.username
 class Post(db.Model):
     __tablename__ = 'posts'
     uuid = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(256), index=True)
-    content = db.Column(db.Text)
-    created = db.Column(db.Integer)
+    body = db.Column(db.Text)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.uuid'))
     def __repr__(self):
         return '<Post %r>' % self.title
 # Schema Objects for use graphene with graphql
@@ -62,28 +61,12 @@ class UserObject(SQLAlchemyObjectType):
        interfaces = (graphene.relay.Node, )
 class Query(graphene.ObjectType):
     node = graphene.relay.Node.Field()
-    posts = SQLAlchemyConnectionField(PostObject)
-    users = SQLAlchemyConnectionField(UserObject)
+    all_posts = SQLAlchemyConnectionField(PostObject)
+    all_users = SQLAlchemyConnectionField(UserObject)
 schema = graphene.Schema(query=Query)
 
-# for creating content in database
-class CreatePosts(graphene.Mutation):
-    class Arguments:
-        title = graphene.String(required=True)
-        content = graphene.String(required=True)
-        username = graphene.String(required=True)
-    posts = graphene.Field(lambda: PostObject)
-    def mutate(self, info, title, content, username):
-        user = User.query.filter_by(username=username).first()
-        posts = Post(title=title, content=content, created=calendar.timegm(time.gmtime()))
-        if user is not None:
-            posts.author = user
-        db.session.add(posts)
-        db.session.commit()
-        return CreatePosts(posts=posts)
-class Mutation(graphene.ObjectType):
-    create_posts = CreatePosts.Field()
-schema = graphene.Schema(query=Query, mutation=Mutation)
+app = Flask(__name__)
+
 
 @app.route('/')
 def index():
@@ -153,5 +136,3 @@ def delete(id):
     conn.close()
     flash('"{}" was successfully deleted!'.format(post['title']))
     return redirect(url_for('index'))
-
-
