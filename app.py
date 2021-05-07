@@ -8,6 +8,7 @@ from graphene_sqlalchemy import SQLAlchemyObjectType, SQLAlchemyConnectionField
 from flask_sqlalchemy import SQLAlchemy
 import datetime
 import os
+import copy
 # app initialization
 app = Flask(__name__)
 app.debug = True
@@ -71,16 +72,18 @@ class CreatePosts(graphene.Mutation):
     class Arguments:
         title = graphene.String(required=True)
         content = graphene.String(required=True)
-        username = graphene.String(required=True)
+        username = graphene.String(required=False)
     posts = graphene.Field(lambda: PostObject)
     def mutate(self, info, title, content, username):
         user = User.query.filter_by(username=username).first()
         posts = Post(title=title, content=content, created=datetime.datetime.now())
+        posts1 = Post(title=title, content=content, created=datetime.datetime.now()) # for avoid bug
         if user is not None:
             posts.author = user
         db.session.add(posts)
         db.session.commit()
-        return CreatePosts(posts=posts)
+        return CreatePosts(posts=posts1)
+
 class Mutation(graphene.ObjectType):
     create_posts = CreatePosts.Field()
 schema = graphene.Schema(query=Query, mutation=Mutation)
