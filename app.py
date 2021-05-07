@@ -6,8 +6,7 @@ from flask_graphql import GraphQLView
 import graphene
 from graphene_sqlalchemy import SQLAlchemyObjectType, SQLAlchemyConnectionField
 from flask_sqlalchemy import SQLAlchemy
-import time
-import calendar
+import datetime
 import os
 # app initialization
 app = Flask(__name__)
@@ -76,7 +75,7 @@ class CreatePosts(graphene.Mutation):
     posts = graphene.Field(lambda: PostObject)
     def mutate(self, info, title, content, username):
         user = User.query.filter_by(username=username).first()
-        posts = Post(title=title, content=content, created=calendar.timegm(time.gmtime()))
+        posts = Post(title=title, content=content, created=datetime.datetime.now())
         if user is not None:
             posts.author = user
         db.session.add(posts)
