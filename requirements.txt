@@ -15,3 +15,4 @@ jsonschema==3.2.0
 requests==2.22.0
 requests-unixsocket==0.2.0
 SQLAlchemy==1.4.12
+flask_googlemaps==1.16.0

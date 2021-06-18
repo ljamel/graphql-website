@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<style type="text/css">
+    /* Always set the map height explicitly to define the size of the div
+     * element that contains the map. */
+    #map {
+        height: 100%;
+    }
+
+    /* Optional: Makes the sample page fill the window. */
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 960px;
+        height: 100%;
+    }
+</style>
+
+
+
+
+<h1>{% block title %} Map google {% endblock %}</h1>
+
+
+<form method="post">
+    <div class="form-group">
+        <label for="depart">Depart</label>
+        <input type="text" name="depart" id="start"
+               placeholder="depart" class="form-control"
+               value="{{ request.form['depart'] }}"></input>
+    </div>
+
+    <div class="form-group">
+        <label for="arriver">Arriver</label>
+        <input type="text" name="arriver" placeholder="Arriver" id="end"
+                  class="form-control"
+                  value="{{ request.form['arriver'] }}"></input>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary" id="clicktrajet">Envoyer</button>
+    </div>
+</form>
+
+
+
+{% for directions_result in directions_results %}
+{% for directions_resul in directions_result["legs"] %}
+    <h2>{{directions_resul["distance"]["text"]|e}}</h2>
+    <h2>{{directions_resul["duration_in_traffic"]["text"]}}</h2>
+
+<h3>{{directions_resul["start_location"] }}</h3>
+{{ directions_resul["start_location"]["lng"] }}
+
+{% endfor %}
+{% endfor %}
+<h2>okk</h2>
+
+<h3>{{directions_results}}</h3>
+<script>
+    function initMap() {
+        const directionsService = new google.maps.DirectionsService();
+        const directionsRenderer = new google.maps.DirectionsRenderer();
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 7,
+            center: { lat: 41.85, lng: -87.65 },
+        });
+        directionsRenderer.setMap(map);
+
+        console.log(directionsRenderer);
+        calculateAndDisplayRoute(directionsService, directionsRenderer);
+
+    }
+
+    function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+        directionsService.route(
+            {
+                origin: {
+                    query: document.getElementById("start").value,
+                },
+                destination: {
+                    query: document.getElementById("end").value,
+                },
+                travelMode: google.maps.TravelMode.DRIVING,
+            },
+            (response, status) => {
+                if (status === "OK") {
+                    directionsRenderer.setDirections(response);
+                } else {
+                    window.alert("Directions request failed due to " + status);
+                }
+            }
+        );
+    }
+</script>
+
+<script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQgvWjC1PYovGZ_cf3L3NRksw2Xp8mN9Y&callback=initMap&libraries=&v=weekly"
+        async
+></script>
+
+<div id="map"></div>
+{% endblock %}

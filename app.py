@@ -9,6 +9,22 @@ from flask_sqlalchemy import SQLAlchemy
 import datetime
 import os
 import copy
+import requests
+import googlemaps
+from datetime import datetime
+
+gmaps = googlemaps.Client(key='AIzaSyBQgvWjC1PYovGZ_cf3L3NRksw2Xp8mN9Y')
+
+query = """query {
+
+  launchesPast(limit: 10) {
+    mission_name
+  }
+
+}"""
+url = 'https://api.spacex.land/graphql/'
+space = requests.post(url, json={'query': query})
+
 # app initialization
 app = Flask(__name__)
 app.debug = True
@@ -52,6 +68,7 @@ class Post(db.Model):
     created = db.Column(db.Integer)
     def __repr__(self):
         return '<Post %r>' % self.title
+
 # Schema Objects for use graphene with graphql
 class PostObject(SQLAlchemyObjectType):
     class Meta:
@@ -93,7 +110,26 @@ def index():
     conn = get_db_connection()
     posts = conn.execute('SELECT * FROM posts').fetchall()
     conn.close()
-    return render_template('index.html', posts=posts)
+    return render_template('index.html', posts=posts, spacex=space)
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+@app.route('/map/', methods=('GET', 'POST'))
+def map():
+    depart="lyon"
+    arriver="paris"
+    if request.method == 'POST':
+        depart = request.form['depart']
+        arriver = request.form['arriver']
+    # Request directions via public transit
+    now = datetime.now()
+    directions_results = gmaps.directions(depart,
+                                          arriver,
+                                          mode="driving",
+                                          departure_time=now)
+    return render_template('map.html', directions_results=directions_results, depart=depart, arriver=arriver)
 
 app.add_url_rule(
     '/graphql',

@@ -1,0 +1,454 @@
+html, body {
+  height: 100%;
+  background:#12141c ;
+  overflow: hidden;
+}
+button:focus {outline:0;}
+.CodeMirror-matchingbracket {
+  text-decoration: none !important;
+  border-bottom: 2px solid #1ad900;
+}
+.flexbox {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  flex-shrink: 0;
+  height: 100vh;
+}
+.CodeMirror, textarea#code {
+  /* Set height, width, borders, and global font properties here */
+  font-size: 17px;
+  height: 100%;
+  width: 100%;
+  flex-grow: 1;
+  background: #0f111a;
+  border: none;
+}
+.actionbar {
+  width: 40px;
+  height: 100%;
+  /* overflow: hidden; */
+  background: rgb(15, 17, 26);
+  transition-duration: .3s;
+  position: relative;
+}
+select#langage {
+  position: absolute;
+  left: -141px;
+  top: 8px;
+  background: #0f111a;
+  z-index: 99999999;
+  border: 1px solid #2d3746;
+  padding: 4px 7px;
+  font-size: 11px;
+  border-radius: 3px;
+  color: #5a769f;
+}
+.sidebarRight {
+  width: 410px;
+  font-family: sans-serif;
+  background: #20242f;
+  height: 100%;
+  /* overflow: hidden; */
+  transition-duration: .3s;
+  position:relative;
+}
+#copyright {
+  position: absolute;
+  bottom: 0px;
+  right: 0;
+  width: 100%;
+  background: #1c2029;
+  padding: 11px 0;
+  text-align: center;
+}
+#copyright p, #copyright a {
+  color:#596174
+}
+#copyright a:hover {
+  color:#a777ff
+}
+.tabsection {
+  overflow-y: auto;
+  height: calc(100% - 85px);
+}
+button.openclosesidebar-icon {
+  background: transparent;
+  border: none;
+  display: block;
+  padding: 12px 4px;
+  border-top: none;
+  z-index: 9;
+}
+.icon.icon-openclosesidebar {
+  fill: #7e7;
+}
+button.openclosesidebar-icon:hover {
+  cursor: pointer;
+}
+button.openclosesidebar-icon:hover .icon.icon-openclosesidebar {
+  fill: rgb(62, 167, 48);
+}
+button.openclosesidebar-icon.close .icon.icon-openclosesidebar {
+  transform: rotate(180deg);
+}
+.sidebarRight .tabs {
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 0 20px;
+  border-bottom: 1px solid #3a4248;
+  background: rgba(46,52,57,.5);
+  height:41px;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  top: 0;
+}
+.sidebarRight .tabs .tab {
+  flex: 1 1 auto;
+  font-size: 12px;
+  padding: 6px 8px 4px;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-align: center;
+  border-bottom: 1px solid transparent;
+  margin: 0 1px -1px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  color: #9ea6ab;
+  cursor: pointer;
+  transition-duration:.2s;
+}
+.sidebarRight .tabs .tab.selected {
+  border-bottom: 1px solid #62a1ff;
+  color: #62a1ff;
+}
+.sidebarRight .tabs .tab.selected .icon {
+  fill: #62a1ff;
+}
+.sidebarRight .tabs .tab .icon {
+  fill: #9ea6ab;
+}
+.sidebarRight .tabs .tab:not(.selected):hover {
+  border-bottom-color: #62a1ff !important;
+  color:#e7e7e7
+}
+.sidebarRight .tabs .tab:hover .icon {
+  fill:#62a1ff
+}
+
+.tabsection {
+  display:none;
+}
+.tabsection.selected {
+  display: flex;
+}
+.AboutSection, .SettingsSection, .CodelistSection, .NotesSection {
+  padding: 27px;
+  display:none;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #c6ccce;
+  text-align: center;
+  line-height: 135%;
+}
+.SettingsSection {
+  align-items: center;
+}
+.AboutSection .description {
+  text-align: left;
+}
+.AboutSection .description h2 {
+  opacity: .77;
+  color: #fff;
+}
+.CodelistSection h2.news {
+  transform: translateX(1px);
+  border: 1px solid #274cca;
+  padding: 2px 6px;
+  line-height: 10px;
+  margin-bottom: 1px;
+  border-radius: 14px;
+  background: #1e222a;
+  color: #59a1ff;
+}
+.CodelistSection h2 {
+  text-align: left;
+  font-size: 11px;
+  margin-bottom: 2px;
+  color: #b6c9dd;
+  margin-top:8px;
+  margin-bottom: -9px;
+  text-transform: uppercase;
+  transform: translateX(7px);
+}
+.AboutSection p,  .SettingsSection p, .CodelistSection p, .NotesSection p, .AboutSection .likep li {
+  font-size: 15px;
+  margin: 11px 0;
+  /* color: #6f8a9d; */
+  color: #9db3c0
+}
+.AboutSection input,.SettingsSection input,.CodelistSection input,.NotesSection input, .AboutSection select,.SettingsSection select,.CodelistSection select,.NotesSection select {
+  background: #1e222a;
+  border: 1px solid #486694;
+  padding: 4px 7px;
+  font-size: 13px;
+  width: 85%;
+  border-radius: 3px;
+  color: aliceblue;
+  margin-bottom: 12px;
+}
+.likep {
+  padding-left: 10px;
+}
+.AboutSection .likep li {
+  margin:3px;
+  padding-left: 3px;
+  list-style-type: disc;
+}
+.AboutSection .job {
+  color: #b48e3a;
+  font-size:12px;
+  margin-bottom:0;
+}
+.AboutSection hr, .CodelistSection hr, .SettingsSection hr  {
+  width: 100%;
+  opacity: .15;
+  border-color: #5671bc;
+}
+hr.invisible {
+  opacity: 0;
+}
+.AboutSection .avatar {
+  border-radius: 50%;
+  min-height: 77px;
+  width: 77px;
+  display: block;
+  margin-bottom: 9px;
+  margin-top: 11px;
+  background-size: cover;
+}
+h1.title {
+  font-size: 17px;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+.subtitle {
+  font-size: 13px;
+  display: block;
+}
+ul.social li {
+  display: inline;
+}
+ul.social li a{
+  color: #9ea4a7;
+  font-size:12px;
+}
+.AboutSection .author {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.AboutSection a {
+  color: #62a1ff
+}
+.AboutSection a:hover {
+  text-decoration: underline;
+}
+div.codelist ul, ul.admincodeslist {
+  width:182px;
+  font-size: 14px;
+}
+div.codelist ul li, ul.admincodeslist li {
+  padding:1px;
+  color: #77899c;
+  display:flex;
+  flex-flow: row nowrap;
+  justify-content: start;
+  position: relative;
+}
+div.codelist ul li.same:before, ul.admincodeslist li.same:before {
+  content: ">";
+  color: #1ad900;
+  position: absolute;
+  left: -10px;
+}
+div.codelist ul li:hover, ul.admincodeslist:hover {
+  text-align: right;
+  opacity: .95;
+  font-size: 14px;
+  color: #a8c2df;
+  cursor: pointer;
+}
+div.codelist ul li span, ul.admincodeslist li span {
+  color: #ccc;
+  padding: 0px 5px;
+}
+div.codelist ul li:hover span, ul.admincodeslist li:hover span {
+  color: #1eff00;
+}
+div.codelist ul li .icon.icon-bin, ul.admincodeslist li .icon.icon-bin {
+  fill:#ad4d4d
+}
+div.codelist ul li .icon-point, ul.admincodeslist li .icon-point {
+  width: 9px;
+  fill-opacity: .15;
+}
+div.codelist ul li .icon-point.same, ul.admincodeslist li .icon-point.same {
+  fill-opacity: 1;
+  fill: #77ee77;
+}
+div.codelist ul li button, ul.admincodeslist li button {
+  background: transparent;
+  border: 0;
+  padding: 2px;
+  position: absolute;
+  right: 0;
+}
+div.codelist ul li button:hover, ul.admincodeslist li button:hover {
+  cursor: pointer;
+}
+div.codelist ul li button:hover .icon.icon-bin, ul.admincodeslist li button:hover .icon.icon-bin {
+  fill:#c83333
+}
+
+
+
+
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgb(17, 19, 29); 
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #456; 
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+.CodeMirror-vscrollbar {
+  overflow-y: scroll;
+  scrollbar-color:#626878#1c2030; 
+  scrollbar-width: thin;
+}
+
+
+
+
+
+.icon {
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  stroke-width: 0;
+  stroke: #fff;
+  fill: #fff;
+  vertical-align: middle;
+  margin: 0 3px;
+}
+.icon.icon-twitter {
+  fill: #4a6171;
+}
+.icon.icon-github {
+  fill: #4a6171;
+}
+.icon.icon-mail4 {
+  fill: #4a6171;
+}
+.icon.icon-bin {
+  fill:#c09494
+}
+.icon.icon-point {
+  fill:#6d83a5
+}
+
+
+
+
+
+/* ==========================================
+Single-colored icons can be modified like so:
+.icon-name {
+  font-size: 32px;
+  color: red;
+}
+========================================== */
+.cm-s-material-ocean.CodeMirror {
+  background-color: #0F111A;
+  color: #cbcbcb;
+}
+.cm-s-vscode-dark .CodeMirror-gutters {
+  padding-right: 7px;
+}
+.cm-s-material-ocean.CodeMirror {
+  color: #d0d0d0;
+}
+
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+mb-0 {
+  margin-bottom: 0 !important;
+}
+
+@media screen and (max-width: 767px) {
+  .AboutSection .avatar, select#langage {
+    display: none;
+  }
+}

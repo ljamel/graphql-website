@@ -1,5 +1,5 @@
 import sqlite3
-
+# delete this file after used
 connection = sqlite3.connect('database.db')
 
 
